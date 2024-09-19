@@ -23,6 +23,8 @@ public class Lobster extends Actor
     public void act()
     {
         moveAround();
+        eat();
+        zombie();
     }
 
     /**
@@ -36,6 +38,34 @@ public class Lobster extends Actor
         }
         if (isAtEdge()) {
             turn(180);
+        }
+    }
+
+    /**
+     * Act - do whatever the Crab wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.
+     */
+    public void eat()
+    {
+        Actor crab = getOneIntersectingObject(Crab.class);
+        if (crab != null) {
+            World world = getWorld();
+            world.removeObject(crab);
+            Greenfoot.playSound("bugZap.wav");
+            Greenfoot.playSound("Death.wav");
+        }
+    }
+
+    /**
+     * 
+     */
+    public void zombie()
+    {
+        Actor worm = getOneIntersectingObject(Worm.class);
+        if (worm != null) {
+            World world = getWorld();
+            world.addObject( new  Lobster(), worm.getX(), worm.getY());
+            world.removeObject(worm);
+            Greenfoot.playSound("Zombie.wav");
         }
     }
 }

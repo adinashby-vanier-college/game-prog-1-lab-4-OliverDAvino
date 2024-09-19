@@ -11,12 +11,38 @@ public class Crab extends Actor
     /* (World, Actor, GreenfootImage, Greenfoot and MouseInfo)*/
 
     /**
+     * When there are no more worms, we win the game!
+     */
+    public boolean isGameWon()
+    {
+        World world = getWorld();
+        if (world.getObjects(Worm.class).isEmpty()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * make the current world, the GameWonWorld
+     */
+    public void transitionToGameWonWorld()
+    {
+        World gameWonWorld =  new  GameWonWorld();
+        Greenfoot.setWorld(gameWonWorld);
+    }
+
+    /**
      * Act - do whatever the Crab wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act()
     {
         moveAndTurn();
         eat();
+        if (isGameWon()) {
+            transitionToGameWonWorld();
+        }
         
     }
 
